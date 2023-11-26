@@ -4,7 +4,7 @@ import { NextUIProvider } from "@nextui-org/react";
 import TerminalLoader from "./TerminalLoader";
 import Welcome from "./Welcome";
 
-const PageCrack = ({ children }) => {
+const PageCrack = ({ children, toggle = false }) => {
   const [isCracked, setIsCracked] = useState(false);
   const [isCracking, setIsCracking] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -34,7 +34,7 @@ const PageCrack = ({ children }) => {
       />
 
       {/* Buttons and Glitch Text */}
-      {!isUnlocked && (
+      {!isUnlocked && toggle && (
         <Welcome
           isCracked={isCracked}
           gridFlicker={gridFlicker}
@@ -44,7 +44,11 @@ const PageCrack = ({ children }) => {
       )}
 
       {/* Grid Overlay and Children */}
-      <div className={`relative z-0 bg-white w-full ${isUnlocked ? "min-h-screen" : "h-screen overflow-hidden"}`}>
+      <div
+        className={`relative z-0 bg-white w-full ${
+          isUnlocked || !toggle ? "min-h-screen" : "h-screen overflow-hidden"
+        }`}
+      >
         {children}
       </div>
     </NextUIProvider>

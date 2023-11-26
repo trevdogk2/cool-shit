@@ -15,6 +15,7 @@ const ParticleSystem = ({
   speed = 1,
   orbitPlane = "xy",
   offset = 0,
+  color = "#000000",
 }) => {
   const particleMesh = useRef();
   const [particles, setParticles] = useState();
@@ -76,8 +77,7 @@ const ParticleSystem = ({
     >
       <pointsMaterial
         size={3} // Increase size when hovered
-        // color={isHovered ? "#ff0000" : "#7ddfff"}
-        color={isHovered ? "#ff0000" : "#000000"}
+        color={isHovered ? "#00ffff" : color}
         transparent
         opacity={1}
         depthWrite={false}
@@ -90,16 +90,16 @@ const ParticleSystem = ({
   );
 };
 
-const TorusOrbit = ({ radius, rotation }) => {
+const TorusOrbit = ({ radius, rotation, color }) => {
   return (
     <mesh rotation={rotation}>
       <torusGeometry args={[radius, 0.2, 50, 100]} />
-      <meshBasicMaterial color={"#000000"} transparent opacity={1} />
+      <meshBasicMaterial color={color} transparent opacity={1} />
     </mesh>
   );
 };
 
-export default function Atom() {
+export default function Atom({ color }) {
   const radius = 100;
   const nucleusRef = useRef();
   const electron1Ref = useRef();
@@ -134,13 +134,13 @@ export default function Atom() {
         <sphereGeometry args={[10, 20, 20]} />
         <meshNormalMaterial />
       </mesh>
-      <TorusOrbit radius={radius} rotation={[Math.PI / 2, 0, 0]} />
-      <TorusOrbit radius={radius} rotation={[Math.PI / 4, 0, 0]} />
-      <TorusOrbit radius={radius} rotation={[Math.PI / -4, 0, 0]} />
+      <TorusOrbit radius={radius} rotation={[Math.PI / 2, 0, 0]} color={color} />
+      <TorusOrbit radius={radius} rotation={[Math.PI / 4, 0, 0]} color={color} />
+      <TorusOrbit radius={radius} rotation={[Math.PI / -4, 0, 0]} color={color} />
 
       {isMeshReady && (
         <>
-          <ParticleSystem mesh={nucleusRef.current} particleCount={10000} />
+          <ParticleSystem mesh={nucleusRef.current} particleCount={10000} color={color} />
           <ParticleSystem
             mesh={electron1Ref.current}
             particleCount={1000}
@@ -148,6 +148,7 @@ export default function Atom() {
             orbitRadius={radius}
             speed={1}
             orbitPlane="xy"
+            color={color}
           />
           <ParticleSystem
             mesh={electron2Ref.current}
@@ -157,6 +158,7 @@ export default function Atom() {
             speed={2}
             orbitPlane="diagonal-asc"
             offset={(2 * Math.PI) / 3}
+            color={color}
           />
           <ParticleSystem
             mesh={electron3Ref.current}
@@ -166,6 +168,7 @@ export default function Atom() {
             speed={4}
             orbitPlane="diagonal-desc"
             offset={(4 * Math.PI) / 3}
+            color={color}
           />
         </>
       )}

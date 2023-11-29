@@ -8,77 +8,158 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 const Home = () => {
-  const ref1 = useRef(null);
-  const ref2 = useRef(null);
-  const ref3 = useRef(null);
-  const ref4 = useRef(null);
-  const ref5 = useRef(null);
+  const containerRef = useRef(null);
+  const square1 = useRef(null);
+  const square2 = useRef(null);
+  const square3 = useRef(null);
+  const square4 = useRef(null);
+
+  const box0 = useRef(null);
+  const box1 = useRef(null);
+  const box2 = useRef(null);
+  const box3 = useRef(null);
+  const box4 = useRef(null);
 
   useEffect(() => {
-    const elements = [ref1.current, ref2.current, ref3.current, ref4.current, ref5.current];
-    // const rotations = [-15, -30, 0, 30, 15];
-    const rotations1 = [0, 0, 0, 0, 0];
-    const rotations2 = [180, 180, 0, 180, 180];
+    if (!containerRef.current) return;
 
-    const size = 80;
-    const scale2 = 8;
-    const translateY2 = `-${(size * scale2) / 2 - 0.5 * size}px`;
-    const positions1 = [
-      `-${2 * size + size / 2}px`,
-      `-${size + size / 2}px`,
-      `-${size / 2}px`,
-      `${size / 2}px`,
-      `${size + size / 2}px`,
-    ];
-    const positions2 = [`-${size / 2}px`, `-${size / 2}px`, `${0}px`, `-${size / 2}px`, `-${size / 2}px`];
+    const cards = [box1.current, box2.current, box3.current, box4.current];
+    const squares = [square1.current, square2.current, square3.current, square4.current];
 
-    const createAnimation = (element, index) => {
+    // const rotations = [360, 180, 0, -180, -360];
+
+    const createCardAnimation = (element, index) => {
+      const Offsets = [36, 12, -12, -36];
+      const centerXOffset = `${Offsets[index]}vw`;
+
       return gsap.context(() => {
-        // Set initial styles
-        gsap.set(element, { rotation: rotations1[index], x: positions1[index] });
+        // Scroll Trigger
+        gsap.fromTo(
+          element,
+          { x: 0 },
+          {
+            x: centerXOffset,
+            scrollTrigger: {
+              trigger: ".aniTrigger",
+              start: "top top",
+              end: "+=1500",
+              scrub: true,
+              toggleActions: "play pause resume none",
+            },
+          }
+        );
+      });
+    };
+    const createSquareAnimation = (element, index) => {
+      const spins = [180, 112.5, -134, -382.5];
+      const rotationDeg = `${spins[index]}`;
 
+      return gsap.context(() => {
         // Scroll Trigger
         let tl = gsap.timeline({
           scrollTrigger: {
             trigger: ".aniTrigger",
-            pin: `.logo${index + 1}`,
-            start: "center center",
-            end: "+=640",
-            scrub: true,
-            toggleActions: "play pause resume reset",
+            start: "top top",
+            end: "+=3000",
+            pin: `.box${index + 1}`,
             pinSpacing: true,
+            scrub: true,
+            toggleActions: "play pause resume none",
           },
         });
 
-        if (index === 2) {
-          tl.to(element, { rotation: rotations2[index], x: positions2[index] }, "50%") // Intermediate state at 50% scroll
-            .to(element, { scale: scale2, y: translateY2, rotation: 180, zIndex: 50 }, "100%"); // Final state at 100% scroll
-        } else {
-          tl.to(element, { rotation: rotations2[index], x: positions2[index] }, "50%") // Intermediate state at 50% scroll
-            .to(element, {}, "100%"); // Final state at 100% scroll
-        }
+        tl.to(element, { rotation: rotationDeg }, "50%").to(element, {}, "100%");
       });
     };
-
-    const contexts = elements.map((el, index) => createAnimation(el, index));
+    const createTransitionAnimation = (element) => {
+      return gsap.context(() => {
+        gsap.fromTo(
+          element,
+          { position: "block", rotation: 0, width: "10vw", height: "10vw" },
+          {
+            position: "fixed",
+            rotation: 90,
+            width: "100vh",
+            height: "100vw",
+            opacity: 1,
+            zIndex: 40,
+            scrollTrigger: {
+              trigger: ".aniTrigger",
+              start: "70% 100%", // Start when the bottom of .aniTrigger hits the bottom of the viewport
+              end: "70% 0%", // Same as start for a one-time trigger
+              scrub: 1, // Play the animation independently of the scroll once triggered
+              toggleActions: "play pause resume none", // Play once when the trigger is reached
+              ease: "expo.inOut",
+            },
+          }
+        );
+      });
+    };
+    const contexts = cards.map((el, index) => createCardAnimation(el, index));
+    const context2s = squares.map((el, index) => createSquareAnimation(el, index));
+    const transition = createTransitionAnimation(square1.current);
 
     return () => {
-      contexts.forEach((ctx) => ctx.revert());
+      [...contexts, ...context2s, transition].forEach((ctx) => ctx.revert());
     };
   }, []);
 
   return (
     <div className="App">
-      <div className="helper"></div>
-      <div className="aniTrigger relative w-full">
-        <div className="absolute left-[50%] logo1 w-[80px] h-[80px] bg-yellow-500" ref={ref1}></div>
-        <div className="absolute left-[50%] logo2 w-[80px] h-[80px] bg-orange-500" ref={ref2}></div>
-        <div className="absolute left-[50%] -translate-x-1/2 logo3 w-[80px] h-[80px] bg-red-500" ref={ref3}></div>
-        <div className="absolute left-[50%] logo4 w-[80px] h-[80px] bg-pink-500" ref={ref4}></div>
-        <div className="absolute left-[50%] logo5 w-[80px] h-[80px] bg-purple-500" ref={ref5}></div>
+      <div className="h-screen bg-orange-500"></div>
+
+      <div className="h-[8vw] bg-black"></div>
+      <div className="z-10 aniTrigger flex flex-row justify-evenly relative w-full py-[4vw]" ref={containerRef}>
+        <div
+          className="z-[40] relative box1 w-[20vw] border border-white flex justify-center items-center"
+          ref={box1}
+          style={{ height: "calc(100vh - 8vw)" }}
+        >
+          <div className="square w-[10vw] h-[10vw] bg-white" ref={square1}></div>
+        </div>
+        <div
+          className="z-30 box2 w-[20vw] border border-white flex justify-center items-center"
+          ref={box2}
+          style={{ height: "calc(100vh - 8vw)" }}
+        >
+          <div className="square w-[10vw] h-[10vw] bg-gray-400" ref={square2}></div>
+        </div>
+        <div
+          className="z-20 box3 w-[20vw] border border-white flex justify-center items-center"
+          ref={box3}
+          style={{ height: "calc(100vh - 8vw)" }}
+        >
+          <div className="square w-[10vw] h-[10vw] bg-gray-600" ref={square3}></div>
+        </div>
+        <div
+          className=" z-10 box4 w-[20vw] border border-white flex justify-center items-center"
+          ref={box4}
+          style={{ height: "calc(100vh - 8vw)" }}
+        >
+          <div className="square w-[10vw] h-[10vw] bg-gray-800" ref={square4}></div>
+        </div>
+
+        {/* <div className="fixed -z-[10] w-[1vw] h-[1vw] bg-red-500 bottom-[50vw] box0" ref={box0}></div> */}
       </div>
 
-      <div className="helper mt-[580px]"></div>
+      {/* New Section that i want to cover up the div before */}
+      <div className="relative z-50">
+        <div className="absolute w-full min-h-screen -top-[100vh] flex flex-col text-black">
+          <div className="bg-transparent min-h-screen w-full grid grid-rows-3 grid-cols-3">
+            <p>HELLO WORLD</p>
+            <p>HELLO WORLD</p>
+            <p>HELLO WORLD</p>
+            <p>HELLO WORLD</p>
+            <p>HELLO WORLD</p>
+            <p>HELLO WORLD</p>
+            <p>HELLO WORLD</p>
+            <p>HELLO WORLD</p>
+            <p>HELLO WORLD</p>
+          </div>
+          <div className="bg-blue-500 h-screen w-full text-black"></div>
+          <div className="bg-green-500 h-screen w-full text-black"></div>
+        </div>
+      </div>
     </div>
   );
 };

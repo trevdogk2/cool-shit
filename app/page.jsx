@@ -5,6 +5,7 @@ import "./home.css";
 import gsap from "gsap";
 import { useRef, useEffect } from "react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Atom from "@/components/threejs/Atom";
 gsap.registerPlugin(ScrollTrigger);
 
 const Home = () => {
@@ -53,6 +54,8 @@ const Home = () => {
     const createSquareAnimation = (element, index) => {
       const spins = [180, 112.5, -134, -382.5];
       const rotationDeg = `${spins[index]}`;
+      const secondHalf =
+        index == 0 ? { rotation: "270", width: "100vh", height: "100vw", opacity: 1, position: "fixed" } : {};
 
       return gsap.context(() => {
         // Scroll Trigger
@@ -68,45 +71,50 @@ const Home = () => {
           },
         });
 
-        tl.to(element, { rotation: rotationDeg }, "50%").to(element, {}, "100%");
+        tl.to(element, { rotation: rotationDeg }, "90%").to(element, secondHalf, "100%");
       });
     };
-    const createTransitionAnimation = (element) => {
-      return gsap.context(() => {
-        gsap.fromTo(
-          element,
-          { position: "block", rotation: 0, width: "10vw", height: "10vw" },
-          {
-            position: "fixed",
-            rotation: 90,
-            width: "100vh",
-            height: "100vw",
-            opacity: 1,
-            zIndex: 40,
-            scrollTrigger: {
-              trigger: ".aniTrigger",
-              start: "70% 100%", // Start when the bottom of .aniTrigger hits the bottom of the viewport
-              end: "70% 0%", // Same as start for a one-time trigger
-              scrub: 1, // Play the animation independently of the scroll once triggered
-              toggleActions: "play pause resume none", // Play once when the trigger is reached
-              ease: "expo.inOut",
-            },
-          }
-        );
-      });
-    };
+    // const createTransitionAnimation = (element) => {
+    //   return gsap.context(() => {
+    //     gsap.fromTo(
+    //       element,
+    //       { position: "block", rotation: 0, width: "10vw", height: "10vw" },
+    //       {
+    //         position: "fixed",
+    //         rotation: 90,
+    //         width: "100vh",
+    //         height: "100vw",
+    //         opacity: 1,
+    //         zIndex: 40,
+    //         scrollTrigger: {
+    //           trigger: ".aniTrigger",
+    //           start: "70% 100%", // Start when the bottom of .aniTrigger hits the bottom of the viewport
+    //           end: "70% 0%", // Same as start for a one-time trigger
+    //           scrub: 1, // Play the animation independently of the scroll once triggered
+    //           toggleActions: "play pause resume none", // Play once when the trigger is reached
+    //           ease: "expo.inOut",
+    //         },
+    //       }
+    //     );
+    //   });
+    // };
     const contexts = cards.map((el, index) => createCardAnimation(el, index));
     const context2s = squares.map((el, index) => createSquareAnimation(el, index));
-    const transition = createTransitionAnimation(square1.current);
+    // const transition = createTransitionAnimation(square1.current);
 
     return () => {
-      [...contexts, ...context2s, transition].forEach((ctx) => ctx.revert());
+      // [...contexts, ...context2s, transition].forEach((ctx) => ctx.revert());
+      [...contexts, ...context2s].forEach((ctx) => ctx.revert());
     };
   }, []);
 
   return (
     <div className="App">
-      <div className="h-screen bg-orange-500"></div>
+      <div className="w-full h-[100vh] flex justify-center items-center pattern5">
+        <div className="w-[50vh] h-[50vh] shadow-2xl bg-white">
+          <Atom primaryColor="#000000" secondaryColor="#000000" lineColor="#61dbfb" />
+        </div>
+      </div>
 
       <div className="h-[8vw] bg-black"></div>
       <div className="z-10 aniTrigger flex flex-row justify-evenly relative w-full py-[4vw]" ref={containerRef}>

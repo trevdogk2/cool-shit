@@ -21,8 +21,7 @@ const ParticleSystem = ({
   const [particles, setParticles] = useState();
   const texture = useTexture("particle-texture.jpg");
   const [accumulatedDistance, setAccumulatedDistance] = useState(0);
-  const geometryRef = useRef();
-  const lastTime = useRef(0);
+  let lastTime = useRef(0);
 
   useEffect(() => {
     if (mesh) {
@@ -36,19 +35,6 @@ const ParticleSystem = ({
       setParticles(tempParticles);
     }
   }, [mesh, particleCount]);
-
-  useEffect(() => {
-    if (particles) {
-      const geometry = new THREE.BufferGeometry();
-      geometry.setAttribute("position", new THREE.Float32BufferAttribute(particles, 3));
-      geometryRef.current = geometry;
-    }
-
-    return () => {
-      geometryRef.current?.dispose();
-      texture?.dispose();
-    };
-  }, [particles, texture]);
 
   useFrame(({ clock }) => {
     if (isElectron && particleMesh.current) {
@@ -96,7 +82,10 @@ const ParticleSystem = ({
   if (!particles) return null;
 
   return (
-    <points ref={particleMesh} geometry={geometryRef.current}>
+    <points
+      ref={particleMesh}
+      geometry={new THREE.BufferGeometry().setAttribute("position", new THREE.Float32BufferAttribute(particles, 3))}
+    >
       <pointsMaterial
         size={3} // Increase size when hovered
         color={color}
@@ -121,7 +110,7 @@ const TorusOrbit = ({ radius, rotation, color }) => {
   );
 };
 
-export default function Atom({ primaryColor = "ffffff", secondaryColor = "#61dbfb", lineColor = "#61dbfb" }) {
+export default function Atom2({ primaryColor = "ffffff", secondaryColor = "#61dbfb", lineColor = "#61dbfb" }) {
   const radius = 100;
   const nucleusRef = useRef();
   const electron1Ref = useRef();
@@ -145,7 +134,7 @@ export default function Atom({ primaryColor = "ffffff", secondaryColor = "#61dbf
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <mesh ref={nucleusRef} position={[0, 0, 0]} visible={false}>
+      <mesh ref={nucleusRef} visible={false}>
         <sphereGeometry args={[40, 20, 20]} />
         <meshNormalMaterial />
       </mesh>

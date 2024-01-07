@@ -24,14 +24,16 @@ const PageCrack = ({ children, toggle = true }) => {
 
   return (
     <NextUIProvider>
-      <TerminalLoader
-        isCracking={isCracking}
-        isExpanded={isExpanded}
-        isUnlocked={isUnlocked}
-        setIsCracked={setIsCracked}
-        setIsCracking={setIsCracking}
-        setIsExpanded={setIsExpanded}
-      />
+      <div className="hidden md:flex">
+        <TerminalLoader
+          isCracking={isCracking}
+          isExpanded={isExpanded}
+          isUnlocked={isUnlocked}
+          setIsCracked={setIsCracked}
+          setIsCracking={setIsCracking}
+          setIsExpanded={setIsExpanded}
+        />
+      </div>
 
       {/* Buttons and Glitch Text */}
       {!isUnlocked && toggle && (

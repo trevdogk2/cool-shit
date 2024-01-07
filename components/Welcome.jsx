@@ -55,7 +55,8 @@ export default function Welcome({ isCracked, gridFlicker, handleCrack, handleUnl
             </Button>
           )}
         </div>
-        <div className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 z-40 pointer-events-none">
+        {/* left-[50%] -translate-x-1/2 */}
+        <div className="absolute flex top-[50%] -translate-y-1/2 z-40 pointer-events-none w-full justify-center">
           <Glitch text="HELLO WORLD" isSolved={isCracked} />
         </div>
       </div>

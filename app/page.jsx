@@ -5,7 +5,9 @@ import "./home.css";
 import gsap from "gsap";
 import { useRef, useEffect } from "react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Atom from "@/components/threejs/Atom";
+import MovingPlaneScene from "@/components/threejs/MovingPlane";
+import BlobScene from "@/components/threejs/Blob";
+// import Atom from "@/components/threejs/Atom";
 gsap.registerPlugin(ScrollTrigger);
 
 const Home = () => {
@@ -112,7 +114,9 @@ const Home = () => {
     <div className="App">
       <div className="w-full h-[100vh] flex justify-center items-center pattern5">
         <div className="w-[50vh] h-[50vh] shadow-2xl bg-white">
-          <Atom primaryColor="#000000" secondaryColor="#000000" lineColor="#61dbfb" />
+          {/* <Atom primaryColor="#000000" secondaryColor="#000000" lineColor="#61dbfb" /> */}
+          {/* <MovingPlaneScene /> */}
+          <BlobScene />
         </div>
       </div>
 

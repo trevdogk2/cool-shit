@@ -135,36 +135,38 @@ const TerminalLoader = ({ isCracking, isExpanded, isUnlocked, setIsCracked, setI
 
   const timestamp = formatDate();
 
-  const crackingSteps = [
-    {
-      command: "ping 192.168.1.1",
-      output:
-        "PING 192.168.1.1 (192.168.1.1): 56 data bytes\n64 bytes from 192.168.1.1: icmp_seq=0 ttl=64 time=0.080 ms",
-    },
-    {
-      command: "nmap -sP 192.168.1.1/24",
-      output:
-        "Starting Nmap 7.70 ( https://nmap.org ) at 2023-03-29\nNmap scan report for 192.168.1.1\nHost is up (0.00080s latency).",
-    },
-    {
-      command: "nc -vv -n -z -w 1 192.168.1.1 1-1024",
-      output: "Connection to 192.168.1.1 22 port [tcp/ssh] succeeded!",
-    },
-    {
-      command: "hydra -l admin -P password.txt 192.168.1.1 http-post-form -V",
-      output:
-        '[DATA] attacking ssh://rust-server.com:22 with login "PAIN DELIVERER" and password "rockAndTorch!90"\n[22][ssh] host: rust-server.com   login: PAIN DELIVERER   password: rockAndTorch!90\n[STATUS] attack finished for rust-server.com (valid password found)\n[80][http-post-form] host: 192.168.1.1   login: admin   password: 123456',
-    },
-    {
-      command: 'sqlmap -u "http://192.168.1.1/login" --forms --batch --crawl=2',
-      output: "sqlmap/1.2.3 - automatic SQL injection and database takeover tool\nhttps://sqlmap.org",
-    },
-    {
-      command: "dir",
-      output: ` Volume in drive C has no label.\n Volume Serial Number is ABCD-1234\n\n Directory of C:\\Users\\TrevorWestin\n\n${timestamp}    <DIR>          .\n${timestamp}    <DIR>          ..\n${timestamp}    <DIR>          Documents\n${timestamp}    <DIR>          Downloads\n${timestamp}    <DIR>          Desktop\n               5 File(s)     1,024,576 bytes\n               3 Dir(s)  100,024,576 bytes free`,
-    },
-    { command: "open_sesame.exe", output: "Admin privileges granted.\nWelcome, Trevor." },
-  ];
+  // const crackingSteps = [
+  //   {
+  //     command: "ping 192.168.1.1",
+  //     output:
+  //       "PING 192.168.1.1 (192.168.1.1): 56 data bytes\n64 bytes from 192.168.1.1: icmp_seq=0 ttl=64 time=0.080 ms",
+  //   },
+  //   {
+  //     command: "nmap -sP 192.168.1.1/24",
+  //     output:
+  //       "Starting Nmap 7.70 ( https://nmap.org ) at 2023-03-29\nNmap scan report for 192.168.1.1\nHost is up (0.00080s latency).",
+  //   },
+  //   {
+  //     command: "nc -vv -n -z -w 1 192.168.1.1 1-1024",
+  //     output: "Connection to 192.168.1.1 22 port [tcp/ssh] succeeded!",
+  //   },
+  //   {
+  //     command: "hydra -l admin -P password.txt 192.168.1.1 http-post-form -V",
+  //     output:
+  //       '[DATA] attacking ssh://rust-server.com:22 with login "PAIN DELIVERER" and password "rockAndTorch!90"\n[22][ssh] host: rust-server.com   login: PAIN DELIVERER   password: rockAndTorch!90\n[STATUS] attack finished for rust-server.com (valid password found)\n[80][http-post-form] host: 192.168.1.1   login: admin   password: 123456',
+  //   },
+  //   {
+  //     command: 'sqlmap -u "http://192.168.1.1/login" --forms --batch --crawl=2',
+  //     output: "sqlmap/1.2.3 - automatic SQL injection and database takeover tool\nhttps://sqlmap.org",
+  //   },
+  //   {
+  //     command: "dir",
+  //     output: ` Volume in drive C has no label.\n Volume Serial Number is ABCD-1234\n\n Directory of C:\\Users\\TrevorWestin\n\n${timestamp}    <DIR>          .\n${timestamp}    <DIR>          ..\n${timestamp}    <DIR>          Documents\n${timestamp}    <DIR>          Downloads\n${timestamp}    <DIR>          Desktop\n               5 File(s)     1,024,576 bytes\n               3 Dir(s)  100,024,576 bytes free`,
+  //   },
+  //   { command: "open_sesame.exe", output: "Admin privileges granted.\nWelcome, Trevor." },
+  // ];
+
+  const crackingSteps = [{ command: "open_sesame.exe", output: "Admin privileges granted.\nWelcome, Trevor." }];
 
   //Cracking in effect starts here
   useEffect(() => {

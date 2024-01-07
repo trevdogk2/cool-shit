@@ -1,4 +1,15 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {}
+const nextConfig = {
+  webpack: (config, { isServer }) => {
+    // Add raw-loader to handle .glsl files
+    config.module.rules.push({
+      test: /\.glsl$/,
+      use: ["raw-loader"],
+    });
 
-module.exports = nextConfig
+    // Important: return the modified config
+    return config;
+  },
+};
+
+module.exports = nextConfig;

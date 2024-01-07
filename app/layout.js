@@ -2,6 +2,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import PageCrack from "@/components/PageCrack";
+import ConsoleArt from "@/components/ConsoleArt";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -14,7 +15,8 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${inter.className}`}>
-        <PageCrack toggle={false}>
+        <ConsoleArt />
+        <PageCrack toggle={true}>
           <Header />
           {children}
         </PageCrack>

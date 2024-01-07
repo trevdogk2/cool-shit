@@ -12,7 +12,7 @@ export default function Welcome({ isCracked, gridFlicker, handleCrack, handleUnl
         >
           {isCracked ? (
             <Button
-              className="animate-pulse"
+              className="animate-pulse bg-[#ba3521]"
               isIconOnly
               radius="sm"
               color="primary"

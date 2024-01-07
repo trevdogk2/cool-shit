@@ -113,7 +113,7 @@ const Home = () => {
   return (
     <div className="App">
       <div className="w-full h-[100vh] flex justify-center items-center pattern5">
-        <div className="w-[50vh] h-[50vh] shadow-2xl bg-white">
+        <div className="hidden md:flex w-[50vh] h-[50vh] shadow-2xl bg-white">
           {/* <Atom primaryColor="#000000" secondaryColor="#000000" lineColor="#61dbfb" /> */}
           {/* <MovingPlaneScene /> */}
           <BlobScene />

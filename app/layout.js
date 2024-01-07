@@ -16,7 +16,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={`${inter.className}`}>
         <ConsoleArt />
-        <PageCrack toggle={false}>
+        <PageCrack toggle={true}>
           <Header />
           {children}
         </PageCrack>

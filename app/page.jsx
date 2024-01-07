@@ -112,11 +112,16 @@ const Home = () => {
 
   return (
     <div className="App">
-      <div className="w-full h-[100vh] flex justify-center items-center pattern5">
-        <div className="hidden md:flex w-[50vh] h-[50vh] shadow-2xl bg-white">
+      <div className="w-full h-[100vh] flex justify-center items-center pattern1">
+        <div className="hidden md:flex w-[50vh] h-[50vh] shadow-2xl">
           {/* <Atom primaryColor="#000000" secondaryColor="#000000" lineColor="#61dbfb" /> */}
-          {/* <MovingPlaneScene /> */}
           <BlobScene />
+        </div>
+        <div className="flex md:hidden w-[75vw] h-[75vw] shadow-2xl text-black items-center justify-center">
+          <MovingPlaneScene />
+          <p className="absolute drop-shadow-lg text-center p-4">
+            Unlock the full experience on a desktop – It's worth it!
+          </p>
         </div>
       </div>
 

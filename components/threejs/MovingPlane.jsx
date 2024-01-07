@@ -75,7 +75,7 @@ const MovingPlane = () => {
 
 const MovingPlaneScene = () => {
   return (
-    <Canvas camera={{ position: [1.0, 1.0, 1.0] }}>
+    <Canvas camera={{ position: [1.0, 0.5, 1.0] }}>
       <MovingPlane />
     </Canvas>
   );
